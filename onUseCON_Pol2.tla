@@ -17,11 +17,12 @@ USTATUS == {"init","requested","activated","terminated","completed"}
 \* DECLARATION OF USES
 USES == [status:USTATUS]
 
+\* DECLARATION OF PolicyNeutral PREDICATE
+PolicyNeutral(u) == RandomElement({TRUE,FALSE})
+
 \* Type checking
 TypeOK==U \in [UID -> USES]
 
-\* Predicate for generic OnUseCON model
-\* RandomElement({TRUE,FALSE})
 
 \* Policy 2 Predicate
 \* 
@@ -79,7 +80,7 @@ onActivate == \E uid \in UID:
 onEvaluate == \E uid \in UID:  
                     /\ U[uid].status="activated"
                     /\ U'= [U EXCEPT ![uid].status=
-                             IF (Policy2(uid)) THEN "activated"     
+                             IF (PolicyNeutral(uid)) THEN "activated"     
                                 ELSE "terminated"]
 
 Complete == \E uid \in UID:  

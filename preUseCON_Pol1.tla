@@ -17,6 +17,9 @@ USTATUS == {"init","requested","activated","denied","completed"}
 \* DECLARATION OF USES
 USES == [status:USTATUS]
 
+\* DECLARATION OF PolicyNeutral PREDICATE
+PolicyNeutral(u) == RandomElement({TRUE,FALSE})
+
 \* Type checking
 TypeOK==U \in [UID -> USES]
 
@@ -63,7 +66,7 @@ Request ==    /\ \E uid \in UID:
 preEvaluate == \E uid \in UID:  
                     /\ U[uid].status="requested"
                     /\ U'= [U EXCEPT ![uid].status=
-                             IF (RandomElement({TRUE,FALSE})) THEN "activated"     
+                             IF (PolicyNeutral(uid)) THEN "activated"     
                                 ELSE "denied"]
 
 Complete == \E uid \in UID:  
